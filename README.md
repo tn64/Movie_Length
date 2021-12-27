@@ -28,49 +28,6 @@ movie_dict
 
 
 ```python
-%%nose
-
-test_years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
-test_durations = [103, 101, 99, 100, 100, 95, 95, 96, 93, 90]
-test_movie_dict = {'years': test_years, 'durations': test_durations}
-
-def test_years_list():
-    assert (type(years) == list), \
-    'Did you correctly initalize a `years` as a list?'
-    assert len(test_years) == len(years), \
-    "Did you correctly define the `years` list as a list containing **all** 10 years from 2011 to 2020?"
-    assert test_years == years, \
-    "Did you correctly define the `years` list as a list containing the years (in order) from 2011 to 2020?"
-    
-def test_durations_list():
-    assert (type(durations) == list), \
-    'Did you correctly initalize a `durations` as a list?'
-    assert len(test_durations) == len(durations), \
-    "Did you correctly define the `durations` list as a list containing **all** 10 average durations our friend provided us?"
-    assert test_durations == durations, \
-    "Did you correctly define the `durations` list as a list containing all of the average movie durations (in order) that our friend provided us?"
-    
-def test_movie_dict_dict():
-    assert (type(movie_dict) == dict), \
-    'Did you correctly initalize `movie_dict` as a dictionary?'
-    assert len(test_durations) == len(durations), \
-    "Did you correctly define the `movie_dict` dictionary as a two-element dictionary containing the years and durations?"
-    assert list(movie_dict.keys()) == ['years', 'durations'], \
-    "Did you correctly define the `movie_dict` dictionary as a two-element dictionary containing the keys `\"years\"` and `\"durations\"`?"
-    assert list(movie_dict['years']) == test_years, \
-    "Does your `movie_dict` dictionary contain a key `\"years\"` with the value set to the `years` list you created above?"
-    assert list(movie_dict['durations']) == test_durations, \
-    "Does your `movie_dict` dictionary contain a key `\"durations\"` with the value set to the `durations` list you created above?"
-```
-
-
-
-
-
-
-    3/3 tests passed
-
-
 
 
 ## 2. Creating a DataFrame from a dictionary
@@ -98,32 +55,6 @@ movie_dict
 
 
 ```python
-%%nose
-
-def test_pandas_loaded():
-    assert 'pd' in globals(), \
-    'Did you correctly import the `pandas` library under the alias `pd`?'
-    
-import pandas as pd
-
-test_years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
-test_durations = [103, 101, 99, 100, 100, 95, 95, 96, 93, 90]
-test_movie_dict = {'years': test_years, 'durations': test_durations}
-test_netflix_df = pd.DataFrame(test_movie_dict)
-
-def test_netflix_df_df():
-    assert test_netflix_df.equals(durations_df), \
-    "Did you correctly create the `netflix_df` DataFrame using your `movie_dict` dictionary?"
-```
-
-
-
-
-
-
-    2/2 tests passed
-
-
 
 
 ## 3. A visual inspection of our data
@@ -153,68 +84,6 @@ plt.show()
 
 
 ```python
-%%nose
-
-import re
-
-def test_fig_exists():
-    import matplotlib
-    # Extra function to test for existence of fig to allow custom feedback
-    def test_fig():
-        try:
-            fig
-            return True
-        except:
-            return False
-    assert (test_fig() == True), \
-    'Did you correctly initalize a `fig` object using `fig = plt.figure()`?'
-    assert (type(fig) == matplotlib.figure.Figure), \
-    'Did you correctly initalize a `fig` object using `fig = plt.figure()`?'
-
-test_years = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
-test_durations = [103, 101, 99, 100, 100, 95, 95, 96, 93, 90]
-test_movie_dict = {'years': test_years, 'durations': test_durations}
-test_netflix_df = pd.DataFrame(test_movie_dict)
-
-x_axis_data = test_netflix_df['years'].values
-y_axis_data = test_netflix_df['durations'].values
-
-def test_matplotlib_loaded():
-    assert 'plt' in globals(), \
-    'Did you correctly import `matplotlib.pyplot` under the alias `plt`?'
-    
-try:
-    # Generate x and y axis containers
-    stu_yaxis = fig.gca().get_lines()[0].get_ydata()
-    stu_xaxis = fig.gca().get_lines()[0].get_xdata()
-    title = fig.gca()._axes.get_title()
-    
-except:
-    title = 'null'
-    stu_yaxis = 'null'
-    stu_xaxis = 'null'
-
-# Tests
-
-def test_y_axis():
-    assert (stu_yaxis == y_axis_data).all(), \
-    'Are you correctly plotting the average movie durations on the y-axis?'
-    
-def test_x_axis():
-    assert (stu_xaxis == x_axis_data).all(), \
-    'Are you correctly plotting the release years on the x axis?'
-    
-def test_title():
-    assert (re.search('netflix\s+movie\s+durations\s+2011\s*\-\s*2020', title, re.IGNORECASE)), \
-    'Did you set the correct title?'
-```
-
-
-
-
-
-
-    5/5 tests passed
 
 
 
@@ -349,38 +218,6 @@ netflix_df.head()
 
 
 ```python
-%%nose
-import re
-import pandas as pd
-
-last_input = In[-2]
-test_netflix_df = pd.read_csv("datasets/netflix_data.csv")
-
-def test_netflix_df_df():
-    assert test_netflix_df.equals(netflix_df), \
-    "Did you correctly create the `netflix_df` DataFrame using the CSV path provided?"
-
-def test_print():
-    assert (re.search("netflix_df\.head\(\s*\)", last_input)) or \
-    (re.search("netflix_df\[\s*0\s*\:\s*5\s*\]", last_input)) or \
-    (re.search("netflix_df\[\s*\:\s*5\s*\]", last_input)) or \
-    (re.search("netflix_df\.loc\[\s*\:\s*4", last_input)) or \
-    (re.search("netflix_df\.loc\[\s*0\s*\:\s*4", last_input)) or \
-    (re.search("netflix_df\.iloc\[\s*\:\s*5", last_input)) or \
-    (re.search("netflix_df\.iloc\[\s*0\s*\:\s*5", last_input)) or \
-    (re.search("netflix_df\[\s*\:\s*5\s*\]", last_input)) or \
-    (re.search("netflix_df\.head\(\s*5\s*\)", last_input)), \
-    "Did you print the first five rows of your new `netflix_df` DataFrame?"
-```
-
-
-
-
-
-
-    2/2 tests passed
-
-
 
 
 ## 5. Filtering for movies!
@@ -478,48 +315,6 @@ netflix_movies_col_subset[0:5]
 
 
 ```python
-%%nose
-
-last_input = In[-2]
-
-import pandas as pd
-import re
-
-test_netflix_df = pd.read_csv("datasets/netflix_data.csv")
-test_netflix_df_filtered = test_netflix_df[netflix_df['type'] == 'Movie']
-test_netflix_movies = test_netflix_df_filtered.loc[:, ['title', 'country', 'genre', 'release_year', 'duration']]
-
-def test_netflix_df_1():
-    assert test_netflix_df_filtered.equals(netflix_df_movies_only), \
-    "Did you correctly create the `netflix_df_movies_only` DataFrame by filtering the `netflix_df` DataFrame \
-    where the `type` was `'Movie'`?"
-    
-def test_netflix_df_2():
-    assert test_netflix_movies.equals(netflix_movies_col_subset), \
-    "Did you correctly create the `netflix_movies_col_subset` DataFrame by \
-    selecting the columns of interest (in order) from `netflix_df_movies_only?"
-def test_print():
-    assert (re.search("netflix_movies_col_subset\.head\(\s*\)", last_input)) or \
-    (re.search("netflix_movies_col_subset\[\s*0\s*\:\s*5\s*\]", last_input)) or \
-    (re.search("netflix_movies_col_subset\[\s*\:\s*5\s*\]", last_input)) or \
-    (re.search("netflix_movies_col_subset\.loc\[\s*\:\s*4", last_input)) or \
-    (re.search("netflix_movies_col_subset\.loc\[\s*0\s*\:\s*4", last_input)) or \
-    (re.search("netflix_movies_col_subset\.iloc\[\s*\:\s*5", last_input)) or \
-    (re.search("netflix_movies_col_subset\.iloc\[\s*0\s*\:\s*5", last_input)) or \
-    (re.search("netflix_movies_col_subset\[\s*\:\s*5\s*\]", last_input)) or \
-    (re.search("netflix_movies_col_subset\.head\(\s*5\s*\)", last_input)), \
-    "Did you print the first five rows of your new `netflix_df` DataFrame?"
-```
-
-
-
-
-
-
-    3/3 tests passed
-
-
-
 
 ## 6. Creating a scatter plot
 <p>Okay, now we're getting somewhere. We've read in the raw data, selected rows of movies, and have limited our DataFrame to our columns of interest. Let's try visualizing the data again to inspect the data over a longer range of time.</p>
@@ -547,53 +342,6 @@ plt.show()
 
 
 ```python
-%%nose
-# %%nose needs to be included at the beginning of every @tests cell
-
-x_axis_data = netflix_movies_col_subset['release_year'].values
-y_axis_data = netflix_movies_col_subset['duration'].values
-
-last_input = In[-2]
-import re
-
-def test_fig_exists():
-    assert re.search('fig\s*=\s*plt\.figure\(\s*figsize\s*\=\s*\(\s*12\s*\,\s*8\s*\)\s*\)', last_input), \
-    'Make sure to leave the code to initialize `fig` unchanged, as this assists with testing!'
-try:
-    # Get figure labels
-    title = fig.gca()._axes.get_title()
-
-    # Concatenate lists to compare to test plot
-    stu_yaxis = fig.gca().collections[0]._offsets.data[:,1].astype(int)
-    stu_xaxis = fig.gca().collections[0]._offsets.data[:, 0].astype(int)
-
-except:
-    title = 'null'
-    stu_yaxis = 'null'
-    stu_xaxis = 'null'
-
-def test_y_axis():
-    assert stu_yaxis.all() == y_axis_data.all(), \
-    'Are you correctly plotting `duration` on the y-axis?'
-    
-def test_x_axis():
-    assert stu_xaxis.all() == x_axis_data.all(), \
-    'Are you correctly plotting `release_date` on the x-axis?' 
-
-def test_title():
-    assert (re.search('Movie\s+Duration\s+by\s+Year\s+of\s+Release', title, re.IGNORECASE)), \
-    'Did you give the correct title?'
-```
-
-
-
-
-
-
-    4/4 tests passed
-
-
-
 
 ## 7. Digging deeper
 <p>This is already much more informative than the simple plot we created when our friend first gave us some data. We can also see that, while newer movies are overrepresented on the platform, many short movies have been released in the past two decades.</p>
@@ -655,44 +403,6 @@ print(short_movies[0:20])
 
 
 ```python
-%%nose
-# %%nose needs to be included at the beginning of every @tests cell
-
-last_input = In[-2]
-
-import pandas as pd
-import re
-
-test_short_df = netflix_movies_col_subset[netflix_movies_col_subset['duration'] < 60]
-
-def test_short_df_1():
-    assert len(short_movies) != 446, \
-    "Are you filtering `netflix_movies_col_subset` for movies **shorter** than 60 minutes?))"
-    assert test_short_df.equals(short_movies), \
-    "Did you correctly create the `short_movies` DataFrame by filtering for \
-    movies with a `duration` fewer than 60 minutes?"
-
-def test_print():
-    assert (re.search("short_movies\[\s*0\s*\:\s*20\s*\]", last_input)) or \
-    (re.search("short_movies\[\s*\:\s*20\s*\]", last_input)) or \
-    (re.search("short_movies\.loc\[\s*\:\s*19", last_input)) or \
-    (re.search("short_movies\.loc\[\s*0\s*\:\s*19", last_input)) or \
-    (re.search("short_movies\.iloc\[\s*\:\s*20", last_input)) or \
-    (re.search("short_movies\.iloc\[\s*0\s*\:\s*20", last_input)) or \
-    (re.search("short_movies\[\s*\:\s*20\s*\]", last_input)) or \
-    (re.search("short_movies\.head\(\s*20\s*\)", last_input)), \
-    "Did you print the first twenty rows of your new `short_movies` DataFrame?"
-```
-
-
-
-
-
-
-    2/2 tests passed
-
-
-
 
 ## 8. Marking non-feature films
 <p>Interesting! It looks as though many of the films that are under 60 minutes fall into genres such as "Children", "Stand-Up", and "Documentaries". This is a logical result, as these types of films are probably often shorter than 90 minute Hollywood blockbuster. </p>
@@ -738,36 +448,6 @@ colors[0:10]
 
 
 ```python
-%%nose
-# Define an empty list
-colors_test = []
-
-# Iterate over rows of netflix_movies
-for lab, row in netflix_movies_col_subset.iterrows():
-    if row['genre'] == "Children":
-        colors_test.append("red")
-    elif row['genre'] == "Documentaries":
-        colors_test.append("blue")
-    elif row['genre'] == "Stand-Up":
-        colors_test.append("green")
-    else :
-        colors_test.append("black")
-        
-def test_colors_list():
-    assert colors_test == colors, \
-    "Did you correctly loop through your `netflix_movies` DataFrame, \
-    and use the genre to append colors to your `colors` list? The first 9 values should be 'black', and the 10th should be `blue'."
-```
-
-
-
-
-
-
-    1/1 tests passed
-
-
-
 
 ## 9. Plotting with color!
 <p>Lovely looping! We now have a <code>colors</code> list that we can pass to our scatter plot, which should allow us to visually inspect whether these genres might be responsible for the decline in the average duration of movies.</p>
@@ -797,100 +477,13 @@ plt.show()
 
 
 ```python
-%%nose
-import numpy as np
-
-x_axis_data = netflix_movies_col_subset["release_year"].values
-y_axis_data = netflix_movies_col_subset["duration"].values
-color_data = np.genfromtxt('datasets/color_data.csv', delimiter=',')
-
-last_input = In[-2]
-import re
-
-def test_fig_exists():
-    assert re.search('fig\s*=\s*plt\.figure\(\s*figsize\s*\=\s*\(\s*12\s*\,\s*8\s*\)\s*\)', last_input), \
-    'Make sure to leave the code to initialize `fig` unchanged, as this assists with testing!'
-
-try:
-    # Get figure labels
-    title = fig.gca()._axes.get_title()
-    x_label = fig.gca()._axes.get_xlabel()
-    y_label = fig.gca()._axes.get_ylabel()
-
-    # Concatenate lists to compare to test plot
-    stu_yaxis = fig.gca().collections[0]._offsets.data[:,1].astype(int)
-    stu_xaxis = fig.gca().collections[0]._offsets.data[:, 0].astype(int)
-    stu_colors = fig.gca().collections[0]._facecolors
-except:
-    title = 'null'
-    x_label = 'null'
-    y_label = 'null'
-    stu_yaxis = 'null'
-    stu_xaxis = 'null'
-    stu_sizes = [0, 1]
-    stu_colors = [0, 1]
-
-def test_y_axis():
-    assert stu_yaxis.all() == y_axis_data.all(), \
-    'Are you correctly plotting `duration` on the y axis?'
-    
-def test_x_axis():
-    assert stu_xaxis.all() == x_axis_data.all(), \
-    'Are you correctly plotting `release_date` on the x axis?'
-    
-def test_colors():
-    assert color_data.all() == stu_colors.all(), \
-    'Are you correctly setting the colors according to the rating scheme provided?'
-
-def test_labels():
-    assert (re.search('movie\s+duration\s+by\s+year\s+of\s+release', title, re.IGNORECASE)), \
-    'Did you give the correct title?'
-    assert (re.search('release\s+year', x_label, re.IGNORECASE)), \
-    'Did you set the correct x-axis label?'  
-    assert (re.search('duration\s*\(\s*min\s*\)', y_label, re.IGNORECASE)), \
-    'Did you set the correct y-axis label?'   
-```
-
-
-
-
-
-
-    5/5 tests passed
-
-
-
 
 ## 10. What next?
 <p>Well, as we suspected, non-typical genres such as children's movies and documentaries are all clustered around the bottom half of the plot. But we can't know for certain until we perform additional analyses. </p>
-<p>Congratulations, you've performed an exploratory analysis of some entertainment data, and there are lots of fun ways to develop your skills as a Pythonic data scientist. These include learning how to analyze data further with statistics, creating more advanced visualizations, and perhaps most importantly, learning more advanced ways of working with data in <code>pandas</code>. This latter skill is covered in our fantastic course <a href="www.datacamp.com/courses/data-manipulation-with-pandas">Data Manipulation with pandas</a>.</p>
-<p>We hope you enjoyed this application of the skills learned in Intermediate Python, and wish you all the best on the rest of your journey!</p>
-
 
 ```python
 # Are we certain that movies are getting shorter?
-are_movies_getting_shorter = "Movies are getting shorter."
-```
+are_movies_getting_shorter = "Movies may be getting shorter, but given the differences in movie length across genres, more data is needed."
 
 
 ```python
-%%nose
-import re
-# %%nose needs to be included at the beginning of every @tests cell
-
-def test_example():
-    assert not re.match(are_movies_getting_shorter, "yes", re.IGNORECASE),\
-    "It looks like you answered that we can be certain movies are getting shorter. \
-    But based on our inspection of the data, it looks like there might be other factors at play \
-    such as genre of movie!"
-```
-
-
-
-
-
-
-    1/1 tests passed
-
-
-
